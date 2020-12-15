@@ -13,6 +13,8 @@ module.exports.initialize = (queue) => {
 };
 
 module.exports.router = (req, res, next = ()=>{}) => {
+  console.log(req);
+  console.log(res);
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
   res.writeHead(200, headers);
   res.end();
