@@ -1,6 +1,7 @@
 (function() {
 
   const serverUrl = 'http://127.0.0.1:3000';
+  //'https://localhost:3000
 
   //
   // TODO: build the swim command fetcher here
@@ -14,10 +15,11 @@
   const ajaxFileUplaod = (file) => {
     var formData = new FormData();
     formData.append('file', file);
+    console.log('we are sending a post command')
     $.ajax({
       type: 'POST',
       data: formData,
-      url: 'FILL_ME_IN',
+      url: serverUrl,
       cache: false,
       contentType: false,
       processData: false,
