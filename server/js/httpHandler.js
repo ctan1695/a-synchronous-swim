@@ -14,9 +14,25 @@ module.exports.initialize = (queue) => {
 
 module.exports.router = (req, res, next = ()=>{}) => {
   console.log(req);
-  console.log(res);
+
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
-  res.writeHead(200, headers);
-  res.end();
+
+  if (req.method === 'GET') {
+    console.log('recieved a GET request!')
+    var movementArray = ['up', 'down', 'left', 'right'];
+    var randomMovement = movementArray[Math.floor(Math.random() * movementArray.length)];
+    console.log(`the random movement is ${randomMovement}`);
+    res.writeHead(200, headers);
+    res.write(randomMovement);
+    console.log(res._data.toString());
+    res.end();
+  } else if (req.method === 'OPTIONS') {
+    res.writeHead(200, headers);
+    console.log(res);
+    res.end();
+  }
+
+  // res.writeHead(200, headers);
+  // res.end();
   next(); // invoke next() at the end of a request to help with testing!
 };

@@ -1,4 +1,5 @@
 (function() {
+  console.log('is this function even envoked?');
 
   const serverUrl = 'http://127.0.0.1:3000';
   //'https://localhost:3000
@@ -6,6 +7,37 @@
   //
   // TODO: build the swim command fetcher here
   //
+  const swimFetcher = (successCB, errorCB = null) => {
+    console.log('we are sending a GET command');
+        $.ajax({
+      url: Parse.server,
+      type: 'GET',
+      data: { order: '-createdAt' },
+      contentType: 'application/json',
+      success: successCB,
+      error: errorCB || function(error) {
+        console.error('aSync Swim: Failed to fetch messages', error);
+      }
+    });
+  }
+
+
+  // readAll: function(successCB, errorCB = null) {
+  //   $.ajax({
+  //     url: Parse.server,
+  //     type: 'GET',
+  //     data: { order: '-createdAt' },
+  //     contentType: 'application/json',
+  //     success: successCB,
+  //     error: errorCB || function(error) {
+  //       console.error('chatterbox: Failed to fetch messages', error);
+  //     }
+  //   });
+  // }
+
+  //set timeout here to become a sync / not hold anything else up
+
+
 
   /////////////////////////////////////////////////////////////////////
   // The ajax file uplaoder is provided for your convenience!
@@ -49,3 +81,5 @@
   });
 
 })();
+
+// export default swimFetcher;
