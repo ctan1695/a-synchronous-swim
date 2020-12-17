@@ -1,6 +1,6 @@
 const SwimTeam = {
 
-  // direction, start and max all need to match the CSS
+  // direction, start and max all need to match the  CSS
   direction: 'left',
   coords: { top: 100, left: 100 },
   max: { top: 0, left: 0, bottom: 295, right: 240 },
@@ -65,7 +65,10 @@ const SwimTeam = {
         SwimTeam.coords.left += 5;
       }
       break;
-    } 
+    }
   }
 
 };
+
+
+//export SwimTeam;

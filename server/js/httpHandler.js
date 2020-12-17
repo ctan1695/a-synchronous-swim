@@ -24,7 +24,7 @@ module.exports.router = (req, res, next = ()=>{}) => {
     console.log(`the random movement is ${randomMovement}`);
     res.writeHead(200, headers);
     res.write(randomMovement);
-    console.log(res._data.toString());
+    // console.log(res._data.toString());
     res.end();
   } else if (req.method === 'OPTIONS') {
     res.writeHead(200, headers);

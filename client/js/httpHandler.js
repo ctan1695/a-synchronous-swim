@@ -10,10 +10,10 @@
   const swimFetcher = (successCB, errorCB = null) => {
     console.log('we are sending a GET command');
         $.ajax({
-      url: Parse.server,
+      url: serverUrl,
       type: 'GET',
-      data: { order: '-createdAt' },
-      contentType: 'application/json',
+      // data: { order: '-createdAt' },
+      // contentType: 'application/json',
       success: successCB,
       error: errorCB || function(error) {
         console.error('aSync Swim: Failed to fetch messages', error);
@@ -22,20 +22,26 @@
   }
 
 
-  // readAll: function(successCB, errorCB = null) {
-  //   $.ajax({
-  //     url: Parse.server,
-  //     type: 'GET',
-  //     data: { order: '-createdAt' },
-  //     contentType: 'application/json',
-  //     success: successCB,
-  //     error: errorCB || function(error) {
-  //       console.error('chatterbox: Failed to fetch messages', error);
-  //     }
-  //   });
-  // }
 
-  //set timeout here to become a sync / not hold anything else up
+  async function waitTime(time) {
+    return new Promise((resolve) => {
+       setTimeout(resolve, time);
+    });
+  }
+  async function messageTyper() {
+    while (true) {
+       await waitTime(1000);
+       console.log('my spaced out message')
+      //  SwimTeam.move('left');
+      swimFetcher((data)=>{
+        console.log(data)
+        SwimTeam.move(data);
+      })
+    }
+  }
+
+  messageTyper();
+
 
 
 
@@ -82,4 +88,4 @@
 
 })();
 
-// export default swimFetcher;
+
