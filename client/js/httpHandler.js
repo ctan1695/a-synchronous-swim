@@ -7,10 +7,10 @@
   //
   // TODO: build the swim command fetcher here
   //
-  const swimFetcher = (successCB, errorCB = null) => {
+  const getRequest = (successCB, errorCB = null, path) => {
     console.log('we are sending a GET command');
         $.ajax({
-      url: serverUrl,
+      url: `${serverUrl}/${path}`,
       type: 'GET',
       // data: { order: '-createdAt' },
       // contentType: 'application/json',
@@ -33,10 +33,10 @@
        await waitTime(1000);
        console.log('my spaced out message')
       //  SwimTeam.move('left');
-      swimFetcher((data)=>{
+      getRequest((data)=>{
         console.log(data)
         SwimTeam.move(data);
-      })
+      }, null, 'swimCommand')
     }
   }
 

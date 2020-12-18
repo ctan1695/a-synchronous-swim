@@ -1,10 +1,11 @@
+var messages = require('./js/messageQueue');
 
-module.exports.arrowMovement = 'left';
+
 
 const keypressHandler = require('./js/keypressHandler');
 keypressHandler.initialize((message) => {
     console.log(`Message received: ${message}`)
-    module.exports.arrowMovement = message;
+    messages.enqueue(message)
   });
 
 //my guess
