@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const headers = require('./cors');
 const multipart = require('./multipartUtils');
+var arrowMovement = require('../index');
 
 // Path for the background image ///////////////////////
 module.exports.backgroundImageFile = path.join('.', 'background.jpg');
@@ -13,17 +14,19 @@ module.exports.initialize = (queue) => {
 };
 
 module.exports.router = (req, res, next = ()=>{}) => {
-  console.log(req);
+  // console.log(req);
 
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
 
   if (req.method === 'GET') {
-    console.log('recieved a GET request!')
+    // console.log('recieved a GET request!')
+    console.log(arrowMovement.arrowMovement);
     var movementArray = ['up', 'down', 'left', 'right'];
     var randomMovement = movementArray[Math.floor(Math.random() * movementArray.length)];
     console.log(`the random movement is ${randomMovement}`);
     res.writeHead(200, headers);
-    res.write(randomMovement);
+    // res.write(randomMovement);
+    res.write(arrowMovement.arrowMovement);
     // console.log(res._data.toString());
     res.end();
   } else if (req.method === 'OPTIONS') {

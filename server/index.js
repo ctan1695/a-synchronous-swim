@@ -1,8 +1,15 @@
 
-
+module.exports.arrowMovement = 'left';
 
 const keypressHandler = require('./js/keypressHandler');
-keypressHandler.initialize(message => console.log(`Message received: ${message}`));
+keypressHandler.initialize((message) => {
+    console.log(`Message received: ${message}`)
+    module.exports.arrowMovement = message;
+  });
+
+//my guess
+//we have to take message and somehow make it available in httpHandler.js
+//this message gets put into the get response
 
 const httpHandler = require('./js/httpHandler');
 
