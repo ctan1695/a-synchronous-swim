@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const headers = require('./cors');
 const multipart = require('./multipartUtils');
+const { parse } = require('querystring');
 var messages = require('./messageQueue');
 
 
@@ -47,7 +48,7 @@ module.exports.router = (req, res, next = ()=>{}) => {
 
     var fileData
     //run fs.readFile
-    fs.readFile(this.backgroundImageFile, (err, data) => {
+    fs.readFile(module.exports.backgroundImageFile, (err, data) => {
       fileData = data;
       if (err) {
         res.writeHead(404, headers);
@@ -60,24 +61,47 @@ module.exports.router = (req, res, next = ()=>{}) => {
       }
       next()
     })
+  } else if ((req.method === 'POST')  && (req.url.includes('background'))) {
+    console.log('IN THE POST REQUEST')
+    let body = '';
+    var buf = Buffer.alloc(0)
+    req.on('data', chunk => {
+      body += chunk //this used to be chunk.toString()
+      buf = Buffer.concat([buf, chunk])
+    })
+    req.on('end', () => {
+      //overwrite the ../background.jpg file here using fs.writeFile
+      console.log('logging body.data')
+      console.log(buf)
 
-    //if data exists
+      var cleanData = multipart.getFile(buf)
+      console.log('this is the cleanData')
+      console.log(cleanData)
+      // console.log(cleanData.data)
 
+      // if (cleanData === null) {
+      //   console.log('we detected cleanData === null')
+      //   res.writeHead(201, headers);
+      //   res.end();
+      //   next();
+      // }
+      // cleanData = cleanData ===  null ? buf : cleanData
+      //cleanData = cleanData ? cleanData : buf
 
-    // if (fs.readFile(httpHandler.backgroundImageFile)) {
-    //   res.writeHead(200, headers);
-    //   //add file to the response object
-    //   res.end();
+      fs.writeFile(module.exports.backgroundImageFile, cleanData.data, (err) => {
+        if (err) {
+          res.writeHead(404, headers);
+          res.end();
+          next();
+        } else {
+          console.log('the file has been saved')
+          res.writeHead(201, headers);
+          res.end();
+          next();
+        }
+      })
 
-    //   //else background does exist, return 200
-    // } else {
-    //   res.writeHead(404, headers);
-    //   res.end();
-    // }
+    })
 
   }
-
-  // res.writeHead(200, headers);
-  // res.end();
-  ; // invoke next() at the end of a request to help with testing!
 };

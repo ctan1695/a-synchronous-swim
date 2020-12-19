@@ -40,7 +40,7 @@
     }
   }
 
-  messageTyper();
+  // messageTyper();
 
 
 
@@ -57,7 +57,7 @@
     $.ajax({
       type: 'POST',
       data: formData,
-      url: serverUrl,
+      url: `http://localhost:3000/background`,
       cache: false,
       contentType: false,
       processData: false,
