@@ -30,7 +30,7 @@
   }
   async function messageTyper() {
     while (true) {
-       await waitTime(1000);
+       await waitTime(100);
        console.log('my spaced out message')
       //  SwimTeam.move('left');
       getRequest((data)=>{

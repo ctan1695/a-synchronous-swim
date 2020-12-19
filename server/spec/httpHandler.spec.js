@@ -37,7 +37,7 @@ describe('server responses', () => {
 
   it('should respond with 404 to a GET request for a missing background image', (done) => {
     httpHandler.backgroundImageFile = path.join('.', 'spec', 'missing.jpg');
-    let {req, res} = server.mock('http://127.0.0.1:3000', 'GET');
+    let {req, res} = server.mock('http://127.0.0.1:3000/background', 'GET');
 
     httpHandler.router(req, res, () => {
       expect(res._responseCode).to.equal(404);
@@ -47,8 +47,10 @@ describe('server responses', () => {
   });
 
   it('should respond with 200 to a GET request for a present background image', (done) => {
-    httpHandler.backgroundImageFile = path.join('.', 'background.jpg');
-    let {req, res} = server.mock('http://127.0.0.1:3000', 'GET');
+    httpHandler.backgroundImageFile = path.join('.', 'spec', 'water-lg.jpg');
+    console.log('LOOK FOR THIS MESSAGE')
+    console.log(httpHandler.backgroundImageFile);
+    let {req, res} = server.mock('http://127.0.0.1:3000/background', 'GET');
 
     httpHandler.router(req, res, () => {
       expect(res._responseCode).to.equal(200);

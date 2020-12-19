@@ -7,7 +7,7 @@ var messages = require('./messageQueue');
 
 
 // Path for the background image ///////////////////////
-module.exports.backgroundImageFile = path.join('.', 'background.jpg');
+module.exports.backgroundImageFile =  path.join('.', 'background.jpg');
 ////////////////////////////////////////////////////////
 
 let messageQueue = null;
@@ -26,6 +26,7 @@ module.exports.router = (req, res, next = ()=>{}) => {
     res.writeHead(200, headers);
     // console.log(res);
     res.end();
+    next()
   } else if ((req.method === 'GET') && (req.url.includes('swimCommand'))) {
     let message = 'left';
     // var movementArray = ['up', 'down', 'left', 'right'];
@@ -35,26 +36,48 @@ module.exports.router = (req, res, next = ()=>{}) => {
     // res.write(randomMovement);
 
     message = messages.dequeue()
-    message = message ? message : 'left'
+    message = message ? message : ''
 
     console.log(' message: ', message)
     res.write(message);
     res.end();
-  } else if (req.method === 'GET') {
+    next()
+  } else if ((req.method === 'GET')  && (req.url.includes('background'))) {
 
-    //if .background.jpg does not exist
-    if (!fs.existsSync('../background.jpg')) {
-      res.writeHead(404, headers);
-      res.end();
-    } else {
-      res.writeHead(200, headers);
-      res.end();
-    }
-      //httpHandler.backgroundImageFile = path.join('.', 'spec', 'background.jpg');
-      //send 404 response code
+
+    var fileData
+    //run fs.readFile
+    fs.readFile(this.backgroundImageFile, (err, data) => {
+      fileData = data;
+      if (err) {
+        res.writeHead(404, headers);
+        res.end();
+      } else {
+        res.writeHead(200, headers);
+        //data goes in the response object
+        res.write(fileData)
+        res.end();
+      }
+      next()
+    })
+
+    //if data exists
+
+
+    // if (fs.readFile(httpHandler.backgroundImageFile)) {
+    //   res.writeHead(200, headers);
+    //   //add file to the response object
+    //   res.end();
+
+    //   //else background does exist, return 200
+    // } else {
+    //   res.writeHead(404, headers);
+    //   res.end();
+    // }
+
   }
 
   // res.writeHead(200, headers);
   // res.end();
-  next(); // invoke next() at the end of a request to help with testing!
+  ; // invoke next() at the end of a request to help with testing!
 };
